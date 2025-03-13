@@ -5,35 +5,35 @@ async function routes(fastify, options) {
   fastify.route({
     method: "GET",
     url: "/user",
-    preHandler: auth,
+    preHandler: [auth],
     handler: User.getAllUser,
   });
 
   fastify.route({
     method: "GET",
     url: "/user/:id",
-    preHandler: auth,
+    preHandler: [auth],
     handler: User.getUser,
   });
 
   fastify.route({
     method: "post",
     url: "/user",
-    preHandler: auth,
+    preHandler: [auth],
     handler: User.cadastrarUser,
   });
 
   fastify.route({
     method: "post",
     url: "/user/login",
-    preHandler: auth,
+    preHandler: [auth],
     handler: User.getUserToLogin,
   });
 
   fastify.route({
     method: "delete",
     url: "/user/delete/:id",
-    preHandler: auth,
+    preHandler: [auth],
     handler: User.deletarUser,
   });
 }
