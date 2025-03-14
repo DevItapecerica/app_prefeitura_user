@@ -32,7 +32,7 @@ async function routes(fastify, options) {
 
   fastify.route({
     method: "delete",
-    url: "/user/delete/:id",
+    url: "/user/:id",
     preHandler: [auth],
     handler: User.deletarUser,
   });
