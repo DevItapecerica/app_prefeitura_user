@@ -36,6 +36,13 @@ async function routes(fastify, options) {
     preHandler: [auth],
     handler: User.deletarUser,
   });
+
+  fastify.route({
+    method: "PUT",
+    url: "/user/:id",
+    preHandler: [auth],
+    handler: User.atualizarUser,
+  });
 }
 
 module.exports = routes;

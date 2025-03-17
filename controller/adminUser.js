@@ -1,7 +1,6 @@
 const DBUser = require("../db/model/UserModel");
 const bcrypt = require("bcryptjs");
 
-
 // Função para criar um usuário
 exports.create = async (userTarget) => {
   try {
@@ -20,7 +19,10 @@ exports.create = async (userTarget) => {
 
     return newUser;
   } catch (error) {
-    throw {message:"Erro ao criar usuário: " + error.message, status: error.status};
+    throw {
+      message: "Erro ao criar usuário: " + error.message,
+      status: error.status,
+    };
   }
 };
 
@@ -29,13 +31,17 @@ exports.getOne = async (paramId) => {
   try {
     const oneUser = await DBUser.findOne({
       where: { id: paramId },
+      attributes: { exclude: ["password"] },
     });
 
-    if (!oneUser) throw {message: "Erro ao encontrar usuário", status: 400};
+    if (!oneUser) throw { message: "Erro ao encontrar usuário", status: 400 };
 
     return oneUser;
   } catch (error) {
-    throw {message: error.message || "Erro ao encontrar usuário", status: error.status || 500};
+    throw {
+      message: error.message || "Erro ao encontrar usuário",
+      status: error.status || 500,
+    };
   }
 };
 
@@ -46,9 +52,12 @@ exports.getAll = async () => {
       attributes: { exclude: ["password"] },
     });
 
-    return (allUsers);
+    return allUsers;
   } catch (error) {
-    throw {message: error.message || "Erro ao encontrar usuários", status: error.status || 400};
+    throw {
+      message: error.message || "Erro ao encontrar usuários",
+      status: error.status || 400,
+    };
   }
 };
 
@@ -78,14 +87,25 @@ exports.remove = async (paramId) => {
   try {
     const deleted = await DBUser.destroy({ where: { id: paramId } });
 
-    if (!deleted) throw {message: "Usuário não encontrado", status: 400};
+    if (!deleted) throw { message: "Usuário não encontrado", status: 404 };
 
     return deleted;
   } catch (error) {
-    throw {message: error.message || "Erro ao deletar usuário", status: error.status || 400};
+    throw {
+      message: error.message || "Erro ao deletar usuário",
+      status: error.status || 400,
+    };
   }
 };
 
+exports.removeBySector = async (sectorId) => {
+  try {
+    const deleted = await DBUser.destroy({ where: { id: paramId } });
+    return deleted;
+  } catch (error) {
+    error = new Error("Erro ao deletar usuários do setor");
+  }
+};
 exports.getLogin = async (email) => {
   const user = await DBUser.findOne({
     where: { email: email },

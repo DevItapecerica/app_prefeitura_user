@@ -23,21 +23,16 @@ exports.cadastrarUser = async (request, reply) => {
 
     return reply.status(201).send("Cadastro realizado com sucesso");
   } catch (error) {
-    return reply
-      .status(error.status || 500)
-      .send(error.message || "Erro interno do servidor");
+    throw error
   }
 };
 
 exports.getUser = async (request, reply) => {
   try {
     const user = await getOne(request.params.id); //get all of specify user, include password and is used to auth routes
-    reply.status(200).send({user});
+    reply.status(200).send(user);
   } catch (error) {
-    console.log(JSON.stringify(error));
-    reply
-      .status(error.status || 500)
-      .send(error.message || "Erro interno do servidor");
+    throw error
   }
 };
 
@@ -58,10 +53,10 @@ exports.getAllUser = async (request, reply) => {
 exports.atualizarUser = async (request, reply) => {
   try {
     let target = request.body.user;
-    await verifyEmail(target.email);
+    // await verifyEmail(target.email);
 
     if (!roles.includes(target.role)) {
-      return reply.status(400).send("Opção não disponível");
+      return reply.status(403).send("Opção não disponível");
     }
 
     await update(target, request.params.id);
@@ -75,19 +70,20 @@ exports.atualizarUser = async (request, reply) => {
 
 exports.deletarUser = async (request, reply) => {
   let id = request.params.id;
-  console.log("teste");
+
   try {
     if (id == 1) {
-      return reply.status(403).send("Não é possível deletar esse usuário");
+      const error = new Error("Não é possível deletar esse usuário");
+      error.status = 403;
+      throw error;
     }
 
     await remove(id);
 
     return reply.status(200).send("Usuário deletado com sucesso");
   } catch (error) {
-    return reply
-      .status(error.status || 500)
-      .send(error.message || "Problemas no servidor...");
+    throw error
+
   }
 };
 
@@ -98,13 +94,14 @@ exports.getUserToLogin = async (request, reply) => {
     const user = await getLogin(email);
 
     if (!user) {
-      throw { message: "Usuário não encontrado", status: 401 };
+      const error = new Error("Usuário não encontrado");
+      error.status = 404;
+      throw error;
     }
 
     reply.status(200).send(user);
   } catch (error) {
-    reply
-      .status(error.status || 500)
-      .send(error.message || "Erro interno do servidor");
+    throw error
+
   }
 };
