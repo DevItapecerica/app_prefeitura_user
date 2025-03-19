@@ -4,9 +4,10 @@ const bcrypt = require("bcryptjs");
 // Função para criar um usuário
 exports.create = async (userTarget) => {
   try {
+    
     // Gera um hash seguro para a senha
     const hashedPassword = await bcrypt.hash(userTarget.name, 10);
-
+    
     // Cria o usuário no banco de dados
     const newUser = await DBUser.create({
       name: userTarget.name,
@@ -16,11 +17,12 @@ exports.create = async (userTarget) => {
       password: hashedPassword,
       role: userTarget.role,
     });
-
+    
+    console.log(userTarget)
     return newUser;
   } catch (error) {
     throw {
-      message: "Erro ao criar usuário: " + error.message,
+      message: `Erro ao criar usuário: ${error.message} ${error.errors[0].message ? error.errors[0].message : ''}` ,
       status: error.status,
     };
   }
@@ -98,14 +100,15 @@ exports.remove = async (paramId) => {
   }
 };
 
-exports.removeBySector = async (sectorId) => {
+exports.removeBySetor = async (setorId) => {
   try {
-    const deleted = await DBUser.destroy({ where: { id: paramId } });
+    const deleted = await DBUser.destroy({ where: { setor_id: paramId } });
     return deleted;
   } catch (error) {
     error = new Error("Erro ao deletar usuários do setor");
   }
 };
+
 exports.getLogin = async (email) => {
   const user = await DBUser.findOne({
     where: { email: email },

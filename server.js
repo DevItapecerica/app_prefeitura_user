@@ -38,7 +38,7 @@ app.register(swaggerUi, {
 
 // Usando o hook onError para tratamento global de erros
 app.setErrorHandler((error, request, reply) => {
-  app.log.error(error); // Log do erro para debugar
+  // console.log(error); // Log do erro para debugar
 
   const statusCode = error.status || 500;
   let messageError =

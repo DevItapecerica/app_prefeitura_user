@@ -14,11 +14,11 @@ const roles = ["admin", "tecnico", "gestor", "user"];
 exports.cadastrarUser = async (request, reply) => {
   try {
     let target = request.body;
-
+    
     if (!roles.includes(target.role)) {
       return reply.status(400).send("Opção não disponível");
     }
-
+    
     await create(target);
 
     return reply.status(201).send("Cadastro realizado com sucesso");
@@ -30,7 +30,7 @@ exports.cadastrarUser = async (request, reply) => {
 exports.getUser = async (request, reply) => {
   try {
     const user = await getOne(request.params.id); //get all of specify user, include password and is used to auth routes
-    reply.status(200).send(user);
+    reply.status(200).send({user});
   } catch (error) {
     throw error
   }
@@ -72,7 +72,7 @@ exports.deletarUser = async (request, reply) => {
   let id = request.params.id;
 
   try {
-    if (id == 1) {
+    if (id <= 1) {
       const error = new Error("Não é possível deletar esse usuário");
       error.status = 403;
       throw error;
@@ -86,6 +86,17 @@ exports.deletarUser = async (request, reply) => {
 
   }
 };
+
+exports.deletarUserSetor = async (request, reply) => {
+  try {
+    let setorId = request.params.id 
+    await removeBySetor(setorId)
+    reply.status(200).send('Usúários excluidos com sucesso')
+  } catch (error) {
+    throw error;
+  }
+
+}
 
 exports.getUserToLogin = async (request, reply) => {
   const { email } = request.body;
