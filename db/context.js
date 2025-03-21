@@ -1,5 +1,5 @@
 const sequelize = require('sequelize');
-require("dotenv").config();
+require("dotenv").config({path: `${__dirname}/../config/.env`});
 
 const DUser = process.env.DATABASE_USER;
 const DKey = process.env.DATABASE_KEY;
@@ -19,6 +19,8 @@ Sequelize.authenticate()
     console.log("conectado ao banco de dados");
   })
   .catch((err) => {
+
+console.log(DUser, DKey, DName, DHost);
     console.log(`Sem sucesso na conexão com o banco de dados ${err} `);
   });
 

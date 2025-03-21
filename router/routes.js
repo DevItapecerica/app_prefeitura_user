@@ -31,7 +31,7 @@ async function routes(fastify, options) {
     method: "post",
     url: "/user/login",
     preHandler: [auth],
-    schema: schema.getUserSchema,
+    schema: schema.getUserLoginSchema,
     handler: User.getUserToLogin,
   });
 
