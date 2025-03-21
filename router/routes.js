@@ -1,11 +1,13 @@
 const User = require("../controller/adminUserController");
 const auth = require("../middleware/authKey");
+const schema = require("../schema/userSchema")
 
 async function routes(fastify, options) {
   fastify.route({
     method: "GET",
     url: "/user",
     preHandler: [auth],
+    schema: schema.getUserSchema,
     handler: User.getAllUser,
   });
 
@@ -13,6 +15,7 @@ async function routes(fastify, options) {
     method: "GET",
     url: "/user/:id",
     preHandler: [auth],
+    schema: schema.getOneUserSchema,
     handler: User.getUser,
   });
 
@@ -20,6 +23,7 @@ async function routes(fastify, options) {
     method: "post",
     url: "/user",
     preHandler: [auth],
+    schema: schema.postUserSchema,
     handler: User.cadastrarUser,
   });
 
@@ -27,6 +31,7 @@ async function routes(fastify, options) {
     method: "post",
     url: "/user/login",
     preHandler: [auth],
+    schema: schema.getUserSchema,
     handler: User.getUserToLogin,
   });
 
@@ -34,6 +39,7 @@ async function routes(fastify, options) {
     method: "delete",
     url: "/user/:id",
     preHandler: [auth],
+    schema: schema.deleteUserSchema,
     handler: User.deletarUser,
   });
 
@@ -41,6 +47,7 @@ async function routes(fastify, options) {
     method: "PUT",
     url: "/user/:id",
     preHandler: [auth],
+    schema: schema.updateUserSchema,
     handler: User.atualizarUser,
   });
 }
