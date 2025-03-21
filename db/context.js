@@ -20,7 +20,6 @@ Sequelize.authenticate()
   })
   .catch((err) => {
 
-console.log(DUser, DKey, DName, DHost);
     console.log(`Sem sucesso na conexão com o banco de dados ${err} `);
   });
 
