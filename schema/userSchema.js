@@ -29,17 +29,24 @@ const getUserSchema = {
       },
     },
     401: {
-      description: "Sem autorização",
+      description: "Token de autenticação inválido",
       type: "object",
       properties: {
-        message: { type: "string", example: "Sem permissão" },
+        message: { type: "string", example: "Token de autenticação inválido" },
+      },
+    },
+    403: {
+      description: "Ação Não permitida",
+      type: "object",
+      properties: {
+        message: { type: "string", example: "Ação não permitida" },
       },
     },
     500: {
-      description: "Erro interno no servidor",
+      description: "Erro ao buscar setores",
       type: "object",
       properties: {
-        message: { type: "string", example: "Erro interno no servidor" },
+        message: { type: "string", example: "Erro ao buscar setor" },
       },
     },
   },
@@ -52,48 +59,61 @@ const postUserSchema = {
 
     body: {
       type: "object",
-      required: ["name", "email", "ramal", "setor_id", "role"],
+      required: ["user"],
       properties: {
-        name: { type: "string" },
-        email: { type: "string" },
-        ramal: { type: "string" },
-        setor_id: { type: "integer" },
-        role: { type: "string" },
+        user: {
+          type: "object",
+          required: ["name", "email", "ramal", "setor_id", "role"],
+          properties: {
+            name: { type: "string" },
+            email: { type: "string" },
+            ramal: { type: "string" },
+            setor_id: { type: "integer" },
+            role: { type: "string" },
+          },
+        },
       },
     },
     response: {
       200: {
-        description: "requisição bem sucedida",
+        description: "Ususário criado com sucesso",
         type: "object",
         properties: {
-          message: {
-            type: "string",
-            example: "usuário criado com sucesso",
+          user: {
+            type: "object",
+            properties: {
+              name: { type: "string", example: "kadoia" },
+              email: { type: "string", example: "kadoia@gmail.com" },
+              ramal: { type: "string", example: "1234" },
+              setor_id: { type: "integer", example: 1 },
+              role: { type: "string", example: "admin" },
+            },
           },
         },
       },
 
       401: {
-        description: "Sem autorização",
+        description: "Token de autenticação inválido",
         type: "object",
         properties: {
-          message: { type: "string", example: "Sem permissão" },
+          message: {
+            type: "string",
+            example: "Token de autenticação inválido",
+          },
         },
       },
-
       403: {
-        description: "Sem autorização",
+        description: "Ação Não permitida",
         type: "object",
         properties: {
           message: { type: "string", example: "Ação não permitida" },
         },
       },
-
       500: {
-        description: "Erro interno no servidor",
+        description: "Erro ao buscar setores",
         type: "object",
         properties: {
-          message: { type: "string", example: "Erro interno no servidor" },
+          message: { type: "string", example: "Erro ao buscar setor" },
         },
       },
     },
@@ -124,17 +144,27 @@ const getOneUserSchema = {
         },
       },
       401: {
-        description: "Sem autorização",
+        description: "Token de autenticação inválido",
         type: "object",
         properties: {
-          message: { type: "string", example: "Sem permissão" },
+          message: {
+            type: "string",
+            example: "Token de autenticação inválido",
+          },
+        },
+      },
+      403: {
+        description: "Ação Não permitida",
+        type: "object",
+        properties: {
+          message: { type: "string", example: "Ação não permitida" },
         },
       },
       500: {
-        description: "Erro interno no servidor",
+        description: "Erro ao buscar setores",
         type: "object",
         properties: {
-          message: { type: "string", example: "Erro interno no servidor" },
+          message: { type: "string", example: "Erro ao buscar setor" },
         },
       },
     },
@@ -173,17 +203,27 @@ const updateUserSchema = {
         },
       },
       401: {
-        description: "Não autorizado",
+        description: "Token de autenticação inválido",
         type: "object",
         properties: {
-          message: { type: "string", example: "Sem autorização" },
+          message: {
+            type: "string",
+            example: "Token de autenticação inválido",
+          },
+        },
+      },
+      403: {
+        description: "Ação Não permitida",
+        type: "object",
+        properties: {
+          message: { type: "string", example: "Ação não permitida" },
         },
       },
       500: {
-        description: "Erro interno do servidor",
+        description: "Erro ao buscar setores",
         type: "object",
         properties: {
-          message: { type: "string", example: "Erro interno no servidor" },
+          message: { type: "string", example: "Erro ao buscar setor" },
         },
       },
     },
@@ -203,27 +243,27 @@ const deleteUserSchema = {
         },
       },
       401: {
-        description: "Sem autorização",
-        type: "object",
-        properties: {
-          message: { type: "string", example: "Sem permissão" },
-        },
-      },
-      403: {
-        description: "Não é possível excluir o usuário primário",
+        description: "Token de autenticação inválido",
         type: "object",
         properties: {
           message: {
             type: "string",
-            example: "Não é possível deletar esse usuário",
+            example: "Token de autenticação inválido",
           },
         },
       },
-      500: {
-        description: "Erro interno no servidor",
+      403: {
+        description: "Ação Não permitida",
         type: "object",
         properties: {
-          message: { type: "string", example: "Erro interno no servidor" },
+          message: { type: "string", example: "Ação não permitida" },
+        },
+      },
+      500: {
+        description: "Erro ao buscar setores",
+        type: "object",
+        properties: {
+          message: { type: "string", example: "Erro ao buscar setor" },
         },
       },
     },
@@ -255,26 +295,27 @@ const getUserLoginSchema = {
       },
 
       401: {
-        description: "Sem autorização",
+        description: "Token de autenticação inválido",
         type: "object",
         properties: {
-          message: { type: "string", example: "Sem permissão" },
+          message: {
+            type: "string",
+            example: "Token de autenticação inválido",
+          },
         },
       },
-
       403: {
-        description: "Sem autorização",
+        description: "Ação Não permitida",
         type: "object",
         properties: {
           message: { type: "string", example: "Ação não permitida" },
         },
       },
-
       500: {
-        description: "Erro interno no servidor",
+        description: "Erro ao buscar setores",
         type: "object",
         properties: {
-          message: { type: "string", example: "Erro interno no servidor" },
+          message: { type: "string", example: "Erro ao buscar setor" },
         },
       },
     },
@@ -287,5 +328,5 @@ module.exports = {
   getOneUserSchema,
   deleteUserSchema,
   updateUserSchema,
-  getUserLoginSchema
+  getUserLoginSchema,
 };

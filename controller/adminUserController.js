@@ -1,12 +1,12 @@
 const {
   getAll,
   getOne,
-  create,
   update,
   remove,
-  getLogin,
 } = require("./adminUser");
-const { verifyEmail } = require("../utils/verifyEmail");
+
+const DBUser = require("../db/model/UserModel");
+
 
 // Permissões disponíveis
 const roles = ["admin", "tecnico", "gestor", "user"];
@@ -14,12 +14,23 @@ const roles = ["admin", "tecnico", "gestor", "user"];
 exports.cadastrarUser = async (request, reply) => {
   try {
     let target = request.body;
-    
+
     if (!roles.includes(target.role)) {
       return reply.status(400).send("Opção não disponível");
     }
     
-    await create(target);
+        // Gera um hash seguro para a senha
+    const hashedPassword = await bcrypt.hash(userTarget.name, 10);
+    
+    // Cria o usuário no banco de dados
+    const newUser = await DBUser.create({
+      name: userTarget.name,
+      email: userTarget.email,
+      ramal: userTarget.ramal,
+      setor_id: userTarget.setor_id,
+      password: hashedPassword,
+      role: userTarget.role,
+    });
 
     return reply.status(201).send("Cadastro realizado com sucesso");
   } catch (error) {
@@ -97,22 +108,3 @@ exports.deletarUserSetor = async (request, reply) => {
   }
 
 }
-
-exports.getUserToLogin = async (request, reply) => {
-  const { email } = request.body;
-
-  try {
-    const user = await getLogin(email);
-
-    if (!user) {
-      const error = new Error("Usuário não encontrado");
-      error.status = 404;
-      throw error;
-    }
-
-    reply.status(200).send(user);
-  } catch (error) {
-    throw error
-
-  }
-};

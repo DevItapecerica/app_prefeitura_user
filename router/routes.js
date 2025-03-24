@@ -28,14 +28,6 @@ async function routes(fastify, options) {
   });
 
   fastify.route({
-    method: "post",
-    url: "/user/login",
-    preHandler: [auth],
-    schema: schema.getUserLoginSchema,
-    handler: User.getUserToLogin,
-  });
-
-  fastify.route({
     method: "delete",
     url: "/user/:id",
     preHandler: [auth],
