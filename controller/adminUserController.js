@@ -1,59 +1,57 @@
-const {
-  getAll,
-  getOne,
-  update,
-  remove,
-} = require("./adminUser");
+const bcrypt = require("bcryptjs");
 
 const DBUser = require("../db/model/UserModel");
-
 
 // Permissões disponíveis
 const roles = ["admin", "tecnico", "gestor", "user"];
 
 exports.cadastrarUser = async (request, reply) => {
   try {
-    let target = request.body;
+    let user = request.body.user;
 
-    if (!roles.includes(target.role)) {
+    if (!roles.includes(user.role)) {
       return reply.status(400).send("Opção não disponível");
     }
-    
-        // Gera um hash seguro para a senha
-    const hashedPassword = await bcrypt.hash(userTarget.name, 10);
-    
+
+    // Gera um hash seguro para a senha
+    const hashedPassword = await bcrypt.hash(user.name, 10);
+
     // Cria o usuário no banco de dados
     const newUser = await DBUser.create({
-      name: userTarget.name,
-      email: userTarget.email,
-      ramal: userTarget.ramal,
-      setor_id: userTarget.setor_id,
+      name: user.name,
+      email: user.email,
+      ramal: user.ramal,
+      setor_id: user.setor_id,
       password: hashedPassword,
-      role: userTarget.role,
+      role: user.role,
     });
 
-    return reply.status(201).send("Cadastro realizado com sucesso");
+    return reply.status(201).send({ newUser });
   } catch (error) {
-    throw error
+    throw error;
   }
 };
 
 exports.getUser = async (request, reply) => {
   try {
-    const user = await getOne(request.params.id); //get all of specify user, include password and is used to auth routes
-    reply.status(200).send({user});
+    let id = request.params.id;
+    const user = await DBUser.findOne({
+      where: { id: id },
+    }); //get all of specify user, include password and is used to auth routes;
+
+    reply.status(200).send({ user });
   } catch (error) {
-    throw error
+    throw error;
   }
 };
 
 exports.getAllUser = async (request, reply) => {
   try {
-    const data = await getAll();
+    const users = await DBUser.findAll({
+      attributes: { exclude: ["password"] },
+    });
 
-    return reply
-      .status(200)
-      .send({ users: data, roles: roles });
+    return reply.status(200).send({ users, roles });
   } catch (error) {
     return reply
       .status(error.status || 500)
@@ -63,19 +61,28 @@ exports.getAllUser = async (request, reply) => {
 
 exports.atualizarUser = async (request, reply) => {
   try {
-    let target = request.body.user;
+    let user = request.body.user;
+    let id = request.params.id;
     // await verifyEmail(target.email);
 
-    if (!roles.includes(target.role)) {
+    if (!roles.includes(user.role)) {
       return reply.status(403).send("Opção não disponível");
     }
 
-    await update(target, request.params.id);
+    await DBUser.update(
+      {
+        name: user.name,
+        email: user.email,
+        ramal: user.ramal,
+        setor_id: user.setor_id,
+        role: user.role,
+      },
+      { where: { id: id } }
+    );
+
     return reply.status(200).send("Atualização bem-sucedida");
   } catch (error) {
-    return reply
-      .status(error.status || 500)
-      .send(error.message || "Problemas ao atualizar usuário");
+    throw error;
   }
 };
 
@@ -89,22 +96,34 @@ exports.deletarUser = async (request, reply) => {
       throw error;
     }
 
-    await remove(id);
+    const deleted = await DBUser.destroy({ where: { id: id } });
+
+    if (!deleted) {
+      let error = new Error("Não foi possível deletar o usuário");
+      error.status = 400;
+      throw error;
+    };
 
     return reply.status(200).send("Usuário deletado com sucesso");
   } catch (error) {
-    throw error
-
+    throw error;
   }
 };
 
 exports.deletarUserSetor = async (request, reply) => {
   try {
-    let setorId = request.params.id 
-    await removeBySetor(setorId)
-    reply.status(200).send('Usúários excluidos com sucesso')
+    let setorId = request.params.id;
+    
+    const deleted = await DBUser.destroy({ where: { setor_id: setorId } });
+
+    if (!deleted) {
+      let error = new Error("Não foi possível deletar os usuários");
+      error.status = 400;
+      throw error;
+    };
+
+    return reply.status(200).send("Usuários deletados com sucesso");
   } catch (error) {
     throw error;
   }
-
-}
+};

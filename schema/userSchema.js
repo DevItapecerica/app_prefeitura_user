@@ -28,6 +28,15 @@ const getUserSchema = {
         },
       },
     },
+    400: {
+      description: "Erro no 400",
+      type: "object",
+      properties: {
+        statusCode: { type: "integer", example: 400 },
+        error: { type: "string", example: "Bad Request" },
+        message: { type: "string", example: "Bad Request" },
+      },
+    },
     401: {
       description: "Token de autenticação inválido",
       type: "object",
@@ -91,7 +100,15 @@ const postUserSchema = {
           },
         },
       },
-
+      400: {
+        description: "Erro no 400",
+        type: "object",
+        properties: {
+          statusCode: { type: "integer", example: 400 },
+          error: { type: "string", example: "Bad Request" },
+          message: { type: "string", example: "Bad Request" },
+        },
+      },
       401: {
         description: "Token de autenticação inválido",
         type: "object",
@@ -143,6 +160,15 @@ const getOneUserSchema = {
           },
         },
       },
+      400: {
+        description: "Erro no 400",
+        type: "object",
+        properties: {
+          statusCode: { type: "integer", example: 400 },
+          error: { type: "string", example: "Bad Request" },
+          message: { type: "string", example: "Bad Request" },
+        },
+      },
       401: {
         description: "Token de autenticação inválido",
         type: "object",
@@ -181,7 +207,6 @@ const updateUserSchema = {
       properties: {
         user: {
           required: ["name", "email", "ramal", "setor_id", "role"],
-
           type: "object",
           properties: {
             name: { type: "string" },
@@ -200,6 +225,15 @@ const updateUserSchema = {
         type: "object",
         properties: {
           message: { type: "string", example: "Usuário salvo com sucesso" },
+        },
+      },
+      400: {
+        description: "Erro no 400",
+        type: "object",
+        properties: {
+          statusCode: { type: "integer", example: 400 },
+          error: { type: "string", example: "Bad Request" },
+          message: { type: "string", example: "Bad Request" },
         },
       },
       401: {
@@ -242,58 +276,15 @@ const deleteUserSchema = {
           message: { type: "string", example: "Usuário deletado com sucesso" },
         },
       },
-      401: {
-        description: "Token de autenticação inválido",
+      400: {
+        description: "Erro no 400",
         type: "object",
         properties: {
-          message: {
-            type: "string",
-            example: "Token de autenticação inválido",
-          },
+          statusCode: { type: "integer", example: 400 },
+          error: { type: "string", example: "Bad Request" },
+          message: { type: "string", example: "Bad Request" },
         },
       },
-      403: {
-        description: "Ação Não permitida",
-        type: "object",
-        properties: {
-          message: { type: "string", example: "Ação não permitida" },
-        },
-      },
-      500: {
-        description: "Erro ao buscar setores",
-        type: "object",
-        properties: {
-          message: { type: "string", example: "Erro ao buscar setor" },
-        },
-      },
-    },
-  },
-};
-
-const getUserLoginSchema = {
-  schema: {
-    description: "Pegue todos os usuários",
-    tags: ["Users"],
-
-    body: {
-      type: "object",
-      required: ["email"],
-      properties: {
-        email: { type: "string" },
-      },
-    },
-    response: {
-      200: {
-        description: "requisição bem sucedida",
-        type: "object",
-        properties: {
-          message: {
-            type: "string",
-            example: "usuário criado com sucesso",
-          },
-        },
-      },
-
       401: {
         description: "Token de autenticação inválido",
         type: "object",
@@ -324,9 +315,8 @@ const getUserLoginSchema = {
 
 module.exports = {
   getUserSchema,
-  postUserSchema,
+  postUserSchema, 
   getOneUserSchema,
   deleteUserSchema,
   updateUserSchema,
-  getUserLoginSchema,
 };
