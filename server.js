@@ -1,8 +1,8 @@
 const fastify = require("fastify");
 const cors = require("@fastify/cors");
-
 const fastifySwagger = require("@fastify/swagger");
 const fastifySwaggerUi = require("@fastify/swagger-ui");
+require('dotenv').config({path: `${__dirname}/config/.env`});
 
 const {swaggerConfig, swaggerUiConfig} = require('./config/swaggerConfig');
 const { corsConfig } = require("./config/corsConfig");
