@@ -155,6 +155,7 @@ const getOneUserSchema = {
               ramal: { type: "string", example: "1234" },
               setor_id: { type: "integer", example: 1 },
               role: { type: "string", example: "admin" },
+              password: { type: "string", example: "sua senha aqui" },
               firstLogin: { type: "boolean", example: true },
             },
           },
