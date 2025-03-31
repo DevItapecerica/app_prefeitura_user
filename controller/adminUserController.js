@@ -75,7 +75,7 @@ exports.atualizarUser = async (request, reply) => {
         email: user.email,
         ramal: user.ramal,
         setor_id: user.setor_id,
-        role_id: user.role,
+        role: user.role,
       },
       { where: { id: id } }
     );

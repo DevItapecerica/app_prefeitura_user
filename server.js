@@ -23,8 +23,11 @@ app.register(fastifySwaggerUi, swaggerUiConfig);
 app.setErrorHandler((error, request, reply) => {
   const statusCode = error.status || error.statusCode || 500;
   let messageError =
-    error.response?.data.message || error.message || "Erro desconhecido";
+    error.response?.data.message || error.name || error.message || "Erro desconhecido";
   // Verifica o tipo de erro e responde com o status adequado
+
+  console.log(messageError)
+  
   switch (statusCode) {
     case 400:
       reply.status(statusCode).send({
