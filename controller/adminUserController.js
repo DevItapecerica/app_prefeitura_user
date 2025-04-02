@@ -2,16 +2,9 @@ const bcrypt = require("bcryptjs");
 
 const DBUser = require("../db/model/UserModel");
 
-// Permissões disponíveis
-const roles = ["admin", "tecnico", "gestor", "user"];
-
 exports.cadastrarUser = async (request, reply) => {
   try {
     let user = request.body.user;
-
-    if (!roles.includes(user.role)) {
-      return reply.status(400).send("Opção não disponível");
-    }
 
     // Gera um hash seguro para a senha
     const hashedPassword = await bcrypt.hash(user.name, 10);
@@ -25,6 +18,7 @@ exports.cadastrarUser = async (request, reply) => {
       password: hashedPassword,
       role: user.role,
     });
+
 
     return reply.status(201).send({ newUser });
   } catch (error) {
@@ -51,7 +45,7 @@ exports.getAllUser = async (request, reply) => {
       attributes: { exclude: ["password"] },
     });
 
-    return reply.status(200).send({ users, roles });
+    return reply.status(200).send({ users });
   } catch (error) {
     return reply
       .status(error.status || 500)
