@@ -42,6 +42,14 @@ async function routes(fastify, options) {
     schema: schema.updateUserSchema,
     handler: User.atualizarUser,
   });
+
+  fastify.route({
+    method: "delete",
+    url: "/user/setor/:id",
+    preHandler: [auth],
+    schema: schema.deleteUserSchema,
+    handler: User.deletarUserSetor,
+  });
 }
 
 module.exports = routes;

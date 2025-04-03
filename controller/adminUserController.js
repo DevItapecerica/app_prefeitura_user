@@ -16,7 +16,7 @@ exports.cadastrarUser = async (request, reply) => {
       ramal: user.ramal,
       setor_id: user.setor_id,
       password: hashedPassword,
-      role: user.role,
+      role_id: user.role_id,
     });
 
 
@@ -58,18 +58,14 @@ exports.atualizarUser = async (request, reply) => {
     let user = request.body.user;
     let id = request.params.id;
     // await verifyEmail(target.email);
-
-    if (!roles.includes(user.role)) {
-      return reply.status(403).send("Opção não disponível");
-    }
-
+    
     await DBUser.update(
       {
         name: user.name,
         email: user.email,
         ramal: user.ramal,
         setor_id: user.setor_id,
-        role: user.role,
+        role_id: user.role_id,
       },
       { where: { id: id } }
     );
