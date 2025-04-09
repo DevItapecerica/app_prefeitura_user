@@ -24,7 +24,7 @@ app.setErrorHandler((error, request, reply) => {
   console.log(error)
   const statusCode = error.status || error.statusCode || 500;
   let messageError =
-    error.response?.data.message || error.name || error.message || "Erro desconhecido";
+    error.response?.data.message || error.message || error.name || "Erro desconhecido";
   // Verifica o tipo de erro e responde com o status adequado
   
   switch (statusCode) {
