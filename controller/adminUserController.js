@@ -20,7 +20,7 @@ exports.cadastrarUser = async (request, reply) => {
     });
 
 
-    return reply.status(201).send({ newUser });
+    return reply.status(201).send( {user: newUser} );
   } catch (error) {
     throw error;
   }
@@ -33,7 +33,7 @@ exports.getUser = async (request, reply) => {
       where: { id: id },
     }); //get all of specify user, include password and is used to auth routes;
 
-    reply.status(200).send( user );
+    reply.status(200).send( {user} );
   } catch (error) {
     throw error;
   }
@@ -45,7 +45,7 @@ exports.getAllUser = async (request, reply) => {
       attributes: { exclude: ["password"] },
     });
 
-    return reply.status(200).send(users );
+    return reply.status(200).send({users});
   } catch (error) {
     return reply
       .status(error.status || 500)
@@ -70,7 +70,7 @@ exports.atualizarUser = async (request, reply) => {
       { where: { id: id } }
     );
 
-    return reply.status(200).send("Atualização bem-sucedida");
+    return reply.status(204);
   } catch (error) {
     throw error;
   }
@@ -94,7 +94,7 @@ exports.deletarUser = async (request, reply) => {
       throw error;
     };
 
-    return reply.status(200).send("Usuário deletado com sucesso");
+    return reply.status(204);
   } catch (error) {
     throw error;
   }
@@ -112,7 +112,7 @@ exports.deletarUserSetor = async (request, reply) => {
       throw error;
     };
 
-    return reply.status(200).send("Usuários deletados com sucesso");
+    return reply.status(204);
   } catch (error) {
     throw error;
   }
