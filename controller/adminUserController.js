@@ -45,7 +45,7 @@ exports.getAllUser = async (request, reply) => {
       attributes: { exclude: ["password"] },
     });
 
-    return reply.status(200).send({ users });
+    return reply.status(200).send(users );
   } catch (error) {
     return reply
       .status(error.status || 500)
