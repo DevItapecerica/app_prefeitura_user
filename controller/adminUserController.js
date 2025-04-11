@@ -33,7 +33,7 @@ exports.getUser = async (request, reply) => {
       where: { id: id },
     }); //get all of specify user, include password and is used to auth routes;
 
-    reply.status(200).send({ user });
+    reply.status(200).send( user );
   } catch (error) {
     throw error;
   }
