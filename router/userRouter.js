@@ -2,7 +2,7 @@ const User = require("../controller/adminUserController");
 const auth = require("../middleware/authKey");
 const schema = require("../schema/userSchema")
 
-async function routes(fastify, options) {
+async function userRouter(fastify, options) {
   fastify.route({
     method: "GET",
     url: "/user",
@@ -52,4 +52,4 @@ async function routes(fastify, options) {
   });
 }
 
-module.exports = routes;
+module.exports = userRouter;
