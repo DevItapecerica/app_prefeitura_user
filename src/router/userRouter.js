@@ -16,7 +16,7 @@ async function userRouter(fastify, options) {
     url: "/user/:id",
     preHandler: [auth],
     schema: schema.getOneUserSchema,
-    handler: User.getUser,
+    handler: User.getOneUser,
   });
 
   fastify.route({

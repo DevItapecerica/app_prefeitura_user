@@ -1,4 +1,3 @@
-require('module-alias/register');
 const { PORT } = require("./src/config/env");
 
 const port = PORT || 8002;

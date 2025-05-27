@@ -1,4 +1,4 @@
-function generateRandomPassword(length = 15) {
+function generateRandomPassword(length = 12) {
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
   let password = "";

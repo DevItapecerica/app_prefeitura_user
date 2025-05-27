@@ -1,42 +1,30 @@
-const bcrypt = require("bcryptjs");
 const DBUser = require("../db/model/UserModel");
-const { sendMail } = require("../services/mailler");
-const generateRandomPassword = require("../utils/generateRandomPassword");
+const { GenAndSendPass } = require("../services/GenAndSendPass");
+const { CreateUser, GetOneUser } = require("../services/userManipulation");
 
 exports.cadastrarUser = async (request, reply) => {
   try {
     let user = request.body.user;
-    // sendMail("anderson.silva@itapecerica.sp.gov.br", "teste funciona", "teste de envio de email");
 
-    const password = await generateRandomPassword() 
-    // Gera um hash seguro para a senha
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await GenAndSendPass(user.mail)
 
     // Cria o usuário no banco de dados
-    const newUser = await DBUser.create({
-      name: user.name,
-      email: user.email,
-      ramal: user.ramal,
-      setor_id: user.setor_id,
-      password: hashedPassword,
-      role_id: user.role_id,
-    });
+    const newUser = await CreateUser(user, hashedPassword);
 
-
-    return reply.status(201).send( {user: newUser} );
+    console.log(newUser)
+    return reply.status(201).send({ user: newUser });
   } catch (error) {
     throw error;
   }
 };
 
-exports.getUser = async (request, reply) => {
+exports.getOneUser = async (request, reply) => {
   try {
     let id = request.params.id;
-    const user = await DBUser.findOne({
-      where: { id: id },
-    }); //get all of specify user, include password and is used to auth routes;
 
-    reply.status(200).send( {user} );
+    const user = await GetOneUser(id) //get all of specify user, include password and is used to auth routes;
+
+    reply.status(200).send({ user });
   } catch (error) {
     throw error;
   }
@@ -48,7 +36,7 @@ exports.getAllUser = async (request, reply) => {
       attributes: { exclude: ["password"] },
     });
 
-    return reply.status(200).send({users});
+    return reply.status(200).send({ users });
   } catch (error) {
     return reply
       .status(error.status || 500)
@@ -61,7 +49,7 @@ exports.atualizarUser = async (request, reply) => {
     let user = request.body.user;
     let id = request.params.id;
     // await verifyEmail(target.email);
-    
+
     await DBUser.update(
       {
         name: user.name,
@@ -95,7 +83,7 @@ exports.deletarUser = async (request, reply) => {
       let error = new Error("Não foi possível deletar o usuário");
       error.status = 400;
       throw error;
-    };
+    }
 
     return reply.status(204);
   } catch (error) {
@@ -106,14 +94,14 @@ exports.deletarUser = async (request, reply) => {
 exports.deletarUserSetor = async (request, reply) => {
   try {
     let setorId = request.params.id;
-    
+
     const deleted = await DBUser.destroy({ where: { setor_id: setorId } });
 
     if (!deleted) {
       let error = new Error("Não foi possível deletar os usuários");
       error.status = 400;
       throw error;
-    };
+    }
 
     return reply.status(204);
   } catch (error) {
