@@ -1,3 +1,4 @@
+require('module-alias/register');
 const { PORT } = require("./src/config/env");
 
 const port = PORT || 8002;
@@ -19,8 +20,8 @@ const { errorHook } = require("./src/hooks/errorHook");
 const userRouter = require("./src/router/userRouter");
 
 // plugins
+// await fastify.register(loggerPlugin);
 fastify.register(cors, corsConfig);
-
 fastify.register(fastifySwagger, swaggerConfig(port));
 fastify.register(fastifySwaggerUi, swaggerUiConfig);
 

@@ -1,0 +1,11 @@
+// jsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@services/*": ["src/services/*"],
+      "@models/*": ["src/db/models/*"],
+      "@controller/*": ["src/controller/*"]
+    }
+  }
+}

@@ -1,13 +1,16 @@
 const bcrypt = require("bcryptjs");
-
 const DBUser = require("../db/model/UserModel");
+const { sendMail } = require("../services/mailler");
+const generateRandomPassword = require("../utils/generateRandomPassword");
 
 exports.cadastrarUser = async (request, reply) => {
   try {
     let user = request.body.user;
+    // sendMail("anderson.silva@itapecerica.sp.gov.br", "teste funciona", "teste de envio de email");
 
+    const password = await generateRandomPassword() 
     // Gera um hash seguro para a senha
-    const hashedPassword = await bcrypt.hash(user.name, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // Cria o usuário no banco de dados
     const newUser = await DBUser.create({
