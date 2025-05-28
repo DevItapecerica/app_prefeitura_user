@@ -1,4 +1,5 @@
 const { sendMail } = require("./mailler");
+const bcrypt = require("bcryptjs");
 const generateRandomPassword = require("../utils/generateRandomPassword");
 
 const GenAndSendPass = async (mail) => {
