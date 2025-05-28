@@ -50,18 +50,28 @@ exports.atualizarUser = async (request, reply) => {
     let id = request.params.id;
     // await verifyEmail(target.email);
 
-    await DBUser.update(
-      {
-        name: user.name,
-        email: user.email,
-        ramal: user.ramal,
-        setor_id: user.setor_id,
-        role_id: user.role_id,
-      },
-      { where: { id: id } }
-    );
+    const target = await DBUser.findByPk(id)
 
-    return reply.status(204);
+    target.name = user.name;
+    target.email = user.email;
+    target.ramal = user.ramal;
+    target.setor_id = user.setor_id;
+    target.role_id = user.role_id;
+
+    await target.save()
+
+    // await DBUser.update(
+    //   {
+    //     name: user.name,
+    //     email: user.email,
+    //     ramal: user.ramal,
+    //     setor_id: user.setor_id,
+    //     role_id: user.role_id,
+    //   },
+    //   { where: { id: id } }
+    // );
+
+    return reply.status(204).send();
   } catch (error) {
     throw error;
   }
@@ -85,7 +95,7 @@ exports.deletarUser = async (request, reply) => {
       throw error;
     }
 
-    return reply.status(204);
+    return reply.status(204).send();
   } catch (error) {
     throw error;
   }
