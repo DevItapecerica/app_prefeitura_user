@@ -21,6 +21,7 @@ const sendMail = async (to, subject, text, html) => {
     });
     return info;
   } catch (error) {
+    console.log(error)
     throw { statusCode: 404, message: "Erro ao enviar e-mail " + error };
   }
 };
