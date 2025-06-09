@@ -6,7 +6,7 @@ exports.cadastrarUser = async (request, reply) => {
   try {
     let user = request.body.user;
 
-    const hashedPassword = await GenAndSendPass(user.mail)
+    const hashedPassword = await GenAndSendPass(user.email)
 
     // Cria o usuário no banco de dados
     const newUser = await CreateUser(user, hashedPassword);
