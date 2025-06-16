@@ -3,6 +3,7 @@ const DBUser = require("../db/model/UserModel");
 const CreateUser = async (user, password) => {
   console.log("Creating user:", user);
   console.log("Creating pass:", password);
+  
   const newUser = await DBUser.create({
     name: user.name,
     email: user.email,
