@@ -105,13 +105,7 @@ exports.deletarUserSetor = async (request, reply) => {
   try {
     let setorId = request.params.id;
 
-    const deleted = await DBUser.destroy({ where: { setor_id: setorId } });
-
-    if (!deleted) {
-      let error = new Error("Não foi possível deletar os usuários");
-      error.status = 400;
-      throw error;
-    }
+    await DBUser.destroy({ where: { setor_id: setorId } });
 
     return reply.status(204);
   } catch (error) {
