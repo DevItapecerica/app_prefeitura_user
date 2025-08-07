@@ -1,8 +1,8 @@
-const User = require("../controller/adminUserController");
-const auth = require("../middleware/authKey");
-const schema = require("../schema/userSchema")
+import * as User from "../controller/adminUserController.js";
+import auth from "../middleware/authKey.js";
+import * as schema from "../schema/userSchema.js";
 
-async function userRouter(fastify, options) {
+const userRouter = async (fastify, options) => {
   fastify.route({
     method: "GET",
     url: "/user",
@@ -20,7 +20,7 @@ async function userRouter(fastify, options) {
   });
 
   fastify.route({
-    method: "post",
+    method: "POST",
     url: "/user",
     preHandler: [auth],
     schema: schema.postUserSchema,
@@ -28,7 +28,7 @@ async function userRouter(fastify, options) {
   });
 
   fastify.route({
-    method: "delete",
+    method: "DELETE",
     url: "/user/:id",
     preHandler: [auth],
     schema: schema.deleteUserSchema,
@@ -44,12 +44,12 @@ async function userRouter(fastify, options) {
   });
 
   fastify.route({
-    method: "delete",
+    method: "DELETE",
     url: "/user/setor/:id",
     preHandler: [auth],
     schema: schema.deleteUserSchema,
     handler: User.deletarUserSetor,
   });
-}
+};
 
-module.exports = userRouter;
+export default userRouter;

@@ -1,23 +1,27 @@
-const errorSchema = require("./errorSchema");
-const getUserSchema = {
+import errorSchema from "./errorSchema.js";
+
+export const getUserSchema = {
   description: "Pegue todos os usuários",
   tags: ["Users"],
   security: [{ APIKey: [] }],
   response: {
     200: {
-      description: "requisição bem sucedida",
+      description: "Requisição bem sucedida",
       type: "object",
       properties: {
         users: {
           type: "array",
-          properties: {
-            id: { type: "integer", example: 1 },
-            name: { type: "string", example: "kadoia" },
-            email: { type: "string", example: "email@dominio.com.br" },
-            ramal: { type: "string", example: "1234" },
-            setor_id: { type: "integer", example: 1 },
-            role_id: { type: "integer", example: 1 },
-            firstLogin: { type: "boolean", example: true },
+          items: {
+            type: "object",
+            properties: {
+              id: { type: "integer", example: 1 },
+              name: { type: "string", example: "kadoia" },
+              email: { type: "string", example: "email@dominio.com.br" },
+              ramal: { type: "string", example: "1234" },
+              setor_id: { type: "integer", example: 1 },
+              role_id: { type: "integer", example: 1 },
+              firstLogin: { type: "boolean", example: true },
+            },
           },
         },
         roles: {
@@ -25,12 +29,12 @@ const getUserSchema = {
         },
       },
     },
-    ...errorSchema
+    ...errorSchema,
   },
 };
 
-const postUserSchema = {
-  description: "Pegue todos os usuários",
+export const postUserSchema = {
+  description: "Cria um novo usuário",
   tags: ["Users"],
   security: [{ APIKey: [] }],
   body: {
@@ -52,7 +56,7 @@ const postUserSchema = {
   },
   response: {
     200: {
-      description: "Ususário criado com sucesso",
+      description: "Usuário criado com sucesso",
       type: "object",
       properties: {
         user: {
@@ -67,17 +71,17 @@ const postUserSchema = {
         },
       },
     },
-    ...errorSchema
+    ...errorSchema,
   },
 };
 
-const getOneUserSchema = {
-  description: "Pegue todos os usuários",
+export const getOneUserSchema = {
+  description: "Retorna um usuário específico",
   tags: ["Users"],
   security: [{ APIKey: [] }],
   response: {
     200: {
-      description: "requisição bem sucedida",
+      description: "Requisição bem sucedida",
       type: "object",
       properties: {
         user: {
@@ -95,21 +99,21 @@ const getOneUserSchema = {
         },
       },
     },
-    ...errorSchema
+    ...errorSchema,
   },
 };
 
-const updateUserSchema = {
-  description: "Atualizar usuário",
+export const updateUserSchema = {
+  description: "Atualiza um usuário existente",
   tags: ["Users"],
   security: [{ APIKey: [] }],
   body: {
-    required: ["user"],
     type: "object",
+    required: ["user"],
     properties: {
       user: {
-        required: ["name", "email", "ramal", "setor_id", "role_id"],
         type: "object",
+        required: ["name", "email", "ramal", "setor_id", "role_id"],
         properties: {
           name: { type: "string" },
           email: { type: "string" },
@@ -120,7 +124,6 @@ const updateUserSchema = {
       },
     },
   },
-
   response: {
     200: {
       description: "Usuário atualizado com sucesso",
@@ -129,11 +132,11 @@ const updateUserSchema = {
         message: { type: "string", example: "Usuário salvo com sucesso" },
       },
     },
-    ...errorSchema
+    ...errorSchema,
   },
 };
 
-const deleteUserSchema = {
+export const deleteUserSchema = {
   description: "Deleta um usuário",
   tags: ["Users"],
   security: [{ APIKey: [] }],
@@ -145,14 +148,6 @@ const deleteUserSchema = {
         message: { type: "string", example: "Usuário deletado com sucesso" },
       },
     },
-    ...errorSchema
+    ...errorSchema,
   },
-};
-
-module.exports = {
-  getUserSchema,
-  postUserSchema,
-  getOneUserSchema,
-  deleteUserSchema,
-  updateUserSchema,
 };

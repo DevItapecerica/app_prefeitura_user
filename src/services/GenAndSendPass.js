@@ -1,9 +1,9 @@
-const { sendMail } = require("./mailler");
-const bcrypt = require("bcryptjs");
-const generateRandomPassword = require("../utils/generateRandomPassword");
+import { sendMail } from "./mailler.js";
+import bcrypt from "bcryptjs";
+import { generateRandomPassword } from "../utils/generateRandomPassword.js";
 
-const GenAndSendPass = async (mail) => {
-  const password = await generateRandomPassword();
+export const GenAndSendPass = async (mail) => {
+  const password = generateRandomPassword();
   const hashedPassword = await bcrypt.hash(password, 10);
 
   await sendMail(
@@ -11,10 +11,9 @@ const GenAndSendPass = async (mail) => {
     "Usuário criado com sucesso",
     "Lembre-se de alterar sua senha!",
     "Sua senha temporária é: ",
-      `<b>${password}</b>`,
-      " <br/> <b>Tenha em mente que ela é de sua responsabilidade, assim como qualquer movimentação usando seu usuário.</b>"
+    `<b>${password}</b>`,
+    "<br/><b>Tenha em mente que ela é de sua responsabilidade, assim como qualquer movimentação usando seu usuário.</b>"
   );
+
   return hashedPassword;
 };
-
-module.exports = { GenAndSendPass };

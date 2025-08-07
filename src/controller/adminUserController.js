@@ -1,36 +1,33 @@
-const DBUser = require("../db/model/UserModel");
-const { GenAndSendPass } = require("../services/GenAndSendPass");
-const { CreateUser, GetOneUser } = require("../services/userManipulation");
+import DBUser from "../db/model/UserModel.js";
+import { GenAndSendPass } from "../services/GenAndSendPass.js";
+import { CreateUser, GetOneUser } from "../services/userManipulation.js";
 
-exports.cadastrarUser = async (request, reply) => {
+export const cadastrarUser = async (request, reply) => {
   try {
-    let user = request.body.user;
+    const { user } = request.body;
+    const hashedPassword = await GenAndSendPass(user.email);
 
-    const hashedPassword = await GenAndSendPass(user.email)
-
-    // Cria o usuário no banco de dados
     const newUser = await CreateUser(user, hashedPassword);
+    console.log(newUser);
 
-    console.log(newUser)
     return reply.status(201).send({ user: newUser });
   } catch (error) {
     throw error;
   }
 };
 
-exports.getOneUser = async (request, reply) => {
+export const getOneUser = async (request, reply) => {
   try {
-    let id = request.params.id;
+    const { id } = request.params;
+    const user = await GetOneUser(id);
 
-    const user = await GetOneUser(id) //get all of specify user, include password and is used to auth routes;
-
-    reply.status(200).send({ user });
+    return reply.status(200).send({ user });
   } catch (error) {
     throw error;
   }
 };
 
-exports.getAllUser = async (request, reply) => {
+export const getAllUser = async (request, reply) => {
   try {
     const users = await DBUser.findAll({
       attributes: { exclude: ["password"] },
@@ -44,32 +41,26 @@ exports.getAllUser = async (request, reply) => {
   }
 };
 
-exports.atualizarUser = async (request, reply) => {
+export const atualizarUser = async (request, reply) => {
   try {
-    let user = request.body.user;
-    let id = request.params.id;
-    // await verifyEmail(target.email);
+    const { user } = request.body;
+    const { id } = request.params;
 
-    const target = await DBUser.findByPk(id)
+    const target = await DBUser.findByPk(id);
 
-    target.name = user.name;
-    target.email = user.email;
-    target.ramal = user.ramal;
-    target.setor_id = user.setor_id;
-    target.role_id = user.role_id;
+    if (!target) {
+      return reply.status(404).send({ error: "Usuário não encontrado" });
+    }
 
-    await target.save()
+    Object.assign(target, {
+      name: user.name,
+      email: user.email,
+      ramal: user.ramal,
+      setor_id: user.setor_id,
+      role_id: user.role_id,
+    });
 
-    // await DBUser.update(
-    //   {
-    //     name: user.name,
-    //     email: user.email,
-    //     ramal: user.ramal,
-    //     setor_id: user.setor_id,
-    //     role_id: user.role_id,
-    //   },
-    //   { where: { id: id } }
-    // );
+    await target.save();
 
     return reply.status(204).send();
   } catch (error) {
@@ -77,22 +68,22 @@ exports.atualizarUser = async (request, reply) => {
   }
 };
 
-exports.deletarUser = async (request, reply) => {
-  let id = request.params.id;
+export const deletarUser = async (request, reply) => {
+  const { id } = request.params;
 
   try {
-    if (id <= 1) {
-      const error = new Error("Não é possível deletar esse usuário");
-      error.status = 403;
-      throw error;
+    if (parseInt(id) <= 1) {
+      return reply
+        .status(403)
+        .send({ error: "Não é possível deletar esse usuário" });
     }
 
-    const deleted = await DBUser.destroy({ where: { id: id } });
+    const deleted = await DBUser.destroy({ where: { id } });
 
     if (!deleted) {
-      let error = new Error("Não foi possível deletar o usuário");
-      error.status = 400;
-      throw error;
+      return reply
+        .status(400)
+        .send({ error: "Não foi possível deletar o usuário" });
     }
 
     return reply.status(204).send();
@@ -101,13 +92,13 @@ exports.deletarUser = async (request, reply) => {
   }
 };
 
-exports.deletarUserSetor = async (request, reply) => {
+export const deletarUserSetor = async (request, reply) => {
   try {
-    let setorId = request.params.id;
+    const { id: setorId } = request.params;
 
     await DBUser.destroy({ where: { setor_id: setorId } });
 
-    return reply.status(204);
+    return reply.status(204).send();
   } catch (error) {
     throw error;
   }

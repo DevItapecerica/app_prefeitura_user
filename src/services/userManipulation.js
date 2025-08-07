@@ -1,32 +1,27 @@
-const DBUser = require("../db/model/UserModel");
+import DBUser from "../db/model/UserModel.js";
 
-const CreateUser = async (user, password) => {
+export const CreateUser = async (user, password) => {
   console.log("Creating user:", user);
   console.log("Creating pass:", password);
-  
+
   const newUser = await DBUser.create({
     name: user.name,
     email: user.email,
     ramal: user.ramal,
     setor_id: user.setor_id,
-    password: password,
+    password,
     role_id: user.role_id,
   });
 
   return newUser;
 };
 
-const GetOneUser = async (id) => {
+export const GetOneUser = async (id) => {
   console.log("Getting user with ID:", id);
+
   const user = await DBUser.findOne({
-    where: { id: id },
+    where: { id },
   });
-  
+
   return user;
-}
-
-
-module.exports = {
-  CreateUser,
-  GetOneUser
 };

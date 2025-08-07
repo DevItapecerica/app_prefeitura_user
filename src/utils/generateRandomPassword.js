@@ -1,13 +1,12 @@
-function generateRandomPassword(length = 12) {
+export function generateRandomPassword(length = 12) {
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
   let password = "";
 
   for (let i = 0; i < length; i++) {
-    password += chars.charAt(Math.floor(Math.random() * chars.length));
+    const randomIndex = Math.floor(Math.random() * chars.length);
+    password += chars.charAt(randomIndex);
   }
 
   return password;
 }
-
-module.exports = generateRandomPassword;
