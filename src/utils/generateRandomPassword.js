@@ -1,6 +1,6 @@
-export function generateRandomPassword(length = 12) {
+export function generateRandomPassword(length = 8) {
   const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let password = "";
 
   for (let i = 0; i < length; i++) {

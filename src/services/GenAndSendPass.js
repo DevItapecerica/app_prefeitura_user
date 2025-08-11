@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { generateRandomPassword } from "../utils/generateRandomPassword.js";
 
 export const GenAndSendPass = async (mail) => {
-  const password = generateRandomPassword();
+  const password = await generateRandomPassword();
   const hashedPassword = await bcrypt.hash(password, 10);
 
   await sendMail(

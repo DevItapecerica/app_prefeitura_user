@@ -44,7 +44,7 @@ const User = db.define(
     },
   },
   {
-    timestamps: true,
+    timestamps: false,
     paranoid: true, // Habilita soft delete
   }
 );
