@@ -12,19 +12,22 @@ const transporter = nodemailer.createTransport({
 
 export const sendMail = async (to, subject, text, html) => {
   try {
-    const info = await transporter.sendMail({
+    await transporter.sendMail({
       from: '"Tecnologia - Itapecerica da Serra" <miguel.moraes@itapecerica.sp.gov.br>',
       to,
       subject,
       text,
       html,
     });
-    return info;
+    return true;
   } catch (error) {
     console.error("Erro ao enviar e-mail:", error);
     throw {
-      statusCode: 404,
+      code: 500,
       message: "Erro ao enviar e-mail: " + error.message,
+      ok: false,
+      api: "User",
+      validation: false,
     };
   }
 };

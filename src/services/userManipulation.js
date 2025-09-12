@@ -1,8 +1,12 @@
+import { NODE_ENV } from "../config/env.js";
+
 import DBUser from "../db/model/UserModel.js";
 
 export const CreateUser = async (user, password) => {
-  console.log("Creating user:", user);
-  console.log("Creating pass:", password);
+  if (NODE_ENV == "development") {
+    console.log("Creating user:", user);
+    console.log("Password:", password);
+  }
 
   const newUser = await DBUser.create({
     name: user.name,

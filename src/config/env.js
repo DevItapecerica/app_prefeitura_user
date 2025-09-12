@@ -16,6 +16,7 @@ function must(name) {
 }
 
 // exportar variáveis
+export const NODE_ENV = must("NODE_ENV");
 export const DATABASE_USER = must("DATABASE_USER");
 export const DATABASE_KEY = must("DATABASE_KEY");
 export const DATABASE_NAME = must("DATABASE_NAME");
