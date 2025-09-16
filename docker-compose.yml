@@ -12,3 +12,10 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_KEY: ${DATABASE_KEY}
       DATABASE_USER: ${DATABASE_USER}
+    ports:
+      - 3000
+    networks:
+      - dokploy-network
+networks:
+  dokploy-network:
+    external: true
