@@ -1,6 +1,7 @@
 services:
   user:
     image: node:18
+    container_name: app_prefeitura_user
     build:
       context: ./
       dockerfile: ./Dockerfile
