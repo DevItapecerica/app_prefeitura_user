@@ -91,7 +91,7 @@ await fastify.register(userRouter);
 const start = async () => {
   try {
     await fastify.listen({ port, host: "0.0.0.0" });
-    console.log(`🚀 Server is running on port ${port}`);
+    console.log(`🚀 Server is running on port ${port} Version V1.2.1`);
   } catch (error) {
     console.error("❌ Erro ao iniciar o servidor:", error);
     process.exit(1);

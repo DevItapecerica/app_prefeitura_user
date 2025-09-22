@@ -10,9 +10,7 @@ export const GenAndSendPass = async (mail) => {
     mail,
     "Usuário criado com sucesso",
     "Lembre-se de alterar sua senha!",
-    "Sua senha temporária é: ",
-    `<b>${password}</b>`,
-    "<br/><b>Tenha em mente que ela é de sua responsabilidade, assim como qualquer movimentação usando seu usuário.</b>"
+    `Sua senha temporária é:<br/> <b>${password}</b> <br/><b>Tenha em mente que ela é de sua responsabilidade, assim como qualquer movimentação usando seu usuário.</b>`
   );
 
   return hashedPassword;
