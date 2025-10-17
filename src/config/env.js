@@ -22,3 +22,7 @@ export const DATABASE_URL = must("DATABASE_URL");
 export const API_KEY = must("API_KEY");
 
 export const PORT = must("APPLICATION_PORT");
+
+export const MAIL_ADRESS = must("MAIL_ADRESS");
+export const MAIL_PASSWORD = must("MAIL_PASSWORD");
+export const MAIL_HOST = must("MAIL_HOST");

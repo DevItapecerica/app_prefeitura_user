@@ -1,12 +1,13 @@
 import nodemailer from "nodemailer";
+import { MAIL_ADRESS, MAIL_HOST, MAIL_PASSWORD } from "../config/env.js";
 
 const transporter = nodemailer.createTransport({
-  host: "mail.itapecerica.sp.gov.br",
+  host: MAIL_HOST,
   port: 25,
   secure: false,
   auth: {
-    user: "miguel.moraes@itapecerica.sp.gov.br",
-    pass: "Smile@614", // ⚠️ Considere mover para variável de ambiente
+    user: MAIL_ADRESS,
+    pass: MAIL_PASSWORD,
   },
 });
 
