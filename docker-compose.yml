@@ -10,6 +10,9 @@ services:
       APPLICATION_PORT: ${APPLICATION_PORT}
       API_KEY: ${API_KEY}
       DATABASE_URL: ${DATABASE_URL}
+      MAIL_ADRESS: ${MAIL_ADRESS}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+      MAIL_HOST: ${MAIL_HOST}
     ports:
       - 3000
     networks:
