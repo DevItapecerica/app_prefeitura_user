@@ -1,7 +1,4 @@
-import { create } from "domain";
-
 export default (sequelize, DataTypes) => {
-
 const Users = sequelize.define(
   "Users",
   {

@@ -1,5 +1,5 @@
 import { NODE_ENV } from "../config/env.js";
-import db from "../db/context.js";
+import db from "../db/models/index.js";
 
 export const CreateUser = async (user, password) => {
   if (NODE_ENV == "dev") {

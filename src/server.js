@@ -20,30 +20,10 @@ import errorHook from "./hooks/errorHook.js";
 import userRouter from "./router/userRouter.js";
 
 //outros
-import db from "./db/context.js";
+import db from "./db/models/index.js";
+import logConfig from "./config/logConfig.js";
 
-
-const logg =
-  NODE_ENV === "prod"
-    ? {
-        translateTime: "HH:MM:ss",
-        ignore: "hostname",
-        colorize: false,
-        destination: "logs/server.log",
-        mkdir: true,
-      }
-    : { translateTime: "HH:MM:ss", ignore: "hostname" };
-
-const fastify = Fastify({
-  disableRequestLogging: true,
-  logger: {
-    level: "info",
-    transport: {
-      target: "pino-pretty",
-      options: logg,
-    },
-  },
-});
+const fastify = Fastify(logConfig);
 
 // plugins
 // await fastify.register(loggerPlugin);
