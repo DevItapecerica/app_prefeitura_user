@@ -1,0 +1,27 @@
+export default {
+  async up(queryInterface, Sequelize) {
+    const existing = await queryInterface.rawSelect('users', {
+      where: { email: 'admin@admin.com' }
+    }, ['id']);
+
+    if (!existing) {
+      await queryInterface.bulkInsert('users', [{
+        id: 1,
+        name: 'admin',
+        email: 'admin@admin.com',
+        ramal: '0000',
+        password: '$2b$10$w8N0Uh0uIb1cKkxK9tZU2OmTQ1ySE1PIx1e7h/AOH6p8L68LSCrN2',
+        setor_id: 1,
+        firstLogin: true,
+        role_id: 1,
+        createdAt: new Date('2025-10-28T12:14:07'),
+        updatedAt: new Date('2025-10-28T12:14:07'),
+        deletedAt: null
+      }]);
+    }
+  },
+
+  async down(queryInterface) {
+    await queryInterface.bulkDelete('users', { email: 'admin@admin.com' });
+  }
+};

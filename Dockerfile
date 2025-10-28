@@ -6,5 +6,4 @@ COPY . .
 EXPOSE 3000
 RUN chown -R node /usr/src/app
 USER node
-RUN npx sequelize-cli db:migrate --env $NODE_ENV --config src/db/config/config.json --migrations-path src/db/migrations --models-path src/db/models
-CMD ["npm", "start"]
+CMD sh -c "npx sequelize-cli db:migrate --env $NODE_ENV --config src/db/config/config.json --migrations-path src/db/migrations --models-path src/db/models && npm start"
