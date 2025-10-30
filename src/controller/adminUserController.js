@@ -1,6 +1,6 @@
-import DBUser from "../db/model/UserModel.js";
 import { GenAndSendPass } from "../services/GenAndSendPass.js";
 import { CreateUser, GetOneUser } from "../services/userManipulation.js";
+import db from "../db/models/index.js";
 
 export const cadastrarUser = async (request, reply) => {
   try {
@@ -40,7 +40,7 @@ export const getOneUser = async (request, reply) => {
 
 export const getAllUser = async (request, reply) => {
   try {
-    const users = await DBUser.findAll({
+    const users = await db.Users.findAll({
       attributes: { exclude: ["password"] },
     });
 
@@ -61,7 +61,7 @@ export const atualizarUser = async (request, reply) => {
     const { user } = request.body;
     const { id } = request.params;
 
-    const target = await DBUser.findByPk(id);
+    const target = await db.Users.findByPk(id);
 
     if (!target) {
       throw {
@@ -107,7 +107,7 @@ export const deletarUser = async (request, reply) => {
       };
     }
 
-    const deleted = await DBUser.destroy({ where: { id } });
+    const deleted = await db.Users.destroy({ where: { id } });
 
     if (!deleted) {
       throw {
@@ -134,7 +134,7 @@ export const deletarUserSetor = async (request, reply) => {
   try {
     const { id: setorId } = request.params;
 
-    await DBUser.destroy({ where: { setor_id: setorId } });
+    await db.Users.destroy({ where: { setor_id: setorId } });
 
     return reply.status(204).send();
   } catch (error) {

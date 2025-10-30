@@ -1,8 +1,6 @@
-import { DataTypes } from "sequelize";
-import db from "../context.js";
-
-const User = db.define(
-  "user",
+export default (sequelize, DataTypes) => {
+const Users = sequelize.define(
+  "Users",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -22,7 +20,7 @@ const User = db.define(
     ramal: {
       type: DataTypes.STRING(255),
       allowNull: true,
-      defaultValue: "null",
+      defaultValue: null,
     },
     password: {
       type: DataTypes.STRING(255),
@@ -31,7 +29,7 @@ const User = db.define(
     setor_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      defaultValue: 0,
+      defaultValue: null,
     },
     role_id: {
       type: DataTypes.INTEGER,
@@ -42,11 +40,25 @@ const User = db.define(
       allowNull: false,
       defaultValue: true,
     },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
   },
   {
-    timestamps: false,
-    paranoid: true, // Habilita soft delete
+    tableName: 'users',
+    timestamps: true,
+    paranoid: true
   }
 );
 
-export default User;
+return Users
+}

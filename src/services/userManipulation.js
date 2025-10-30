@@ -1,6 +1,5 @@
 import { NODE_ENV } from "../config/env.js";
-
-import DBUser from "../db/model/UserModel.js";
+import db from "../db/models/index.js";
 
 export const CreateUser = async (user, password) => {
   if (NODE_ENV == "dev") {
@@ -8,7 +7,7 @@ export const CreateUser = async (user, password) => {
     console.log("Password:", password);
   }
 
-  const newUser = await DBUser.create({
+  const newUser = await db.Users.create({
     name: user.name,
     email: user.email,
     ramal: user.ramal,
@@ -21,7 +20,7 @@ export const CreateUser = async (user, password) => {
 };
 
 export const GetOneUser = async (id) => {
-  const user = await DBUser.findOne({
+  const user = await db.Users.findOne({
     where: { id },
   });
 
