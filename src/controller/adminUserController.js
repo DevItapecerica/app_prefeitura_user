@@ -1,5 +1,6 @@
 import { GenAndSendPass } from "../services/GenAndSendPass.js";
 import { CreateUser, GetOneUser } from "../services/userManipulation.js";
+import db from "../db/models/index.js";
 
 export const cadastrarUser = async (request, reply) => {
   try {
