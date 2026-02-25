@@ -18,7 +18,7 @@ const db = {};
 
 let sequelize;
 if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], {...config, logging: (sql, timing) => {if(timing > 1000) console.log(`[LENTA]: ${sql} - Tempo: ${timing}ms`)}});
+  sequelize = new Sequelize(process.env[config.use_env_variable], {...config, logging: (sql, timing) => {console.log(`[LENTA]: ${sql} - Tempo: ${timing}ms`)}});
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
