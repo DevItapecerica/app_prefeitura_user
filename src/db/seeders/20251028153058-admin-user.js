@@ -1,12 +1,13 @@
 export default {
   async up(queryInterface, Sequelize) {
-    const existing = await queryInterface.rawSelect('users', {
-      where: { email: 'admin@admin.com' }
-    }, ['id']);
+    const existing = await queryInterface.rawSelect(
+      'users',
+      { where: { email: 'admin@admin.com' } },
+      'id'
+    );
 
-    if (!existing) {
+    if (!existing || existing === null) {
       await queryInterface.bulkInsert('users', [{
-        id: 1,
         name: 'admin',
         email: 'admin@admin.com',
         ramal: '0000',
@@ -14,8 +15,8 @@ export default {
         setor_id: 1,
         firstLogin: true,
         role_id: 1,
-        createdAt: new Date('2025-10-28T12:14:07'),
-        updatedAt: new Date('2025-10-28T12:14:07'),
+        createdAt: new Date(),
+        updatedAt: new Date(),
         deletedAt: null
       }]);
     }
